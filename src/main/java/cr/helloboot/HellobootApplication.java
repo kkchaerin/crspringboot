@@ -3,6 +3,7 @@ package cr.helloboot;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -17,22 +18,24 @@ import java.io.IOException;
 public class HellobootApplication {
 
     public static void main(String[] args) {
+        // spring container
+        GenericApplicationContext applicationContext = new GenericApplicationContext();
+        applicationContext.registerBean(HelloController.class);
+        applicationContext.refresh();
+
         ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
         WebServer webServer = serverFactory.getWebServer(servletContext -> {
-            HelloController helloController = new HelloController();
-
             servletContext.addServlet("frontcontroller", new HttpServlet() {
                 @Override
                 protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                    // 인증, 보안, 다국어 처리 등 공통 기능
+                    // 인증, 보안, 다국어 처리, 공통 기능 처리 로직 위치
                     if (req.getRequestURI().equals("/hello") && req.getMethod().equals(HttpMethod.GET.name())){
                         String name = req.getParameter("name");
 
+                        HelloController helloController = applicationContext.getBean(HelloController.class);
                         String ret = helloController.hello(name);
 
-                        // 웹 응답의 세가지 요소 : status, header(content-type), body
-                        resp.setStatus(HttpStatus.OK.value());
-                        resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+                        resp.setContentType(MediaType.TEXT_PLAIN_VALUE);
                         resp.getWriter().println(ret);
                     }
                     else if (req.getRequestURI().equals("/user")){
@@ -44,7 +47,7 @@ public class HellobootApplication {
                 }
             }).addMapping("/*");
         });
-        webServer.start(); //404가 뜬다는 것은 tomcat 이 잘 올라갔다는 뜻이다.
+        webServer.start();
 
 
     }
