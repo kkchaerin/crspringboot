@@ -17,9 +17,10 @@ import java.io.IOException;
 public class HellobootApplication {
 
     public static void main(String[] args) {
-        // spring container
+        // spring container : 의존 Object 를 삽입해준다.(DI)
         GenericApplicationContext applicationContext = new GenericApplicationContext();
         applicationContext.registerBean(HelloController.class);
+        applicationContext.registerBean(SimpleHelloService.class);
         applicationContext.refresh();
 
         ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
