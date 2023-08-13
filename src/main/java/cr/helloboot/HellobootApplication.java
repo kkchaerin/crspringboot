@@ -24,24 +24,6 @@ public class HellobootApplication {
 
     public static void main(String[] args) {
         // spring container : 의존 Object 를 삽입해준다.(DI)
-        AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext() {
-            @Override
-            protected void onRefresh() {
-                super.onRefresh();
-
-                ServletWebServerFactory serverFactory = this.getBean(ServletWebServerFactory.class);
-                DispatcherServlet dispatcherServlet = this.getBean(DispatcherServlet.class);
-//                dispatcherServlet.setApplicationContext(this); // spring container 지정
-                
-                WebServer webServer = serverFactory.getWebServer(servletContext -> {
-                    servletContext.addServlet("dispatcherServlet", dispatcherServlet
-                    ).addMapping("/*");
-                });
-                webServer.start();
-            }
-        };
-        applicationContext.register(HellobootApplication.class);
-        applicationContext.refresh(); // spring container 초기화 작업
-
+        MySpringApplication.run(HellobootApplication.class, args);
     }
 }
