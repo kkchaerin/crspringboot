@@ -9,20 +9,23 @@ import org.springframework.web.servlet.DispatcherServlet;
 public class HellobootApplication {
     public static void main(String[] args) {
         // spring container : 의존 Object 를 삽입해준다.(DI)
-        GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
+        GenericWebApplicationContext applicationContext = new GenericWebApplicationContext() {
+            @Override
+            protected void onRefresh() {
+                super.onRefresh();
+
+                ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
+                WebServer webServer = serverFactory.getWebServer(servletContext -> {
+                    servletContext.addServlet("dispatcherServlet",
+                            new DispatcherServlet(this) // front container 로 servlet 사용하기
+                    ).addMapping("/*");
+                });
+                webServer.start();
+            }
+        };
         applicationContext.registerBean(HelloController.class);
         applicationContext.registerBean(SimpleHelloService.class);
-        applicationContext.refresh();
-
-        ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
-        WebServer webServer = serverFactory.getWebServer(servletContext -> {
-            servletContext.addServlet("dispatcherServlet",
-                    new DispatcherServlet(applicationContext)
-            ).addMapping("/*");
-        });
-        webServer.start();
-
+        applicationContext.refresh(); // spring container 초기화 작업
 
     }
-
 }
