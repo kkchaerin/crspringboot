@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class HellobootApplication {
-
     public static void main(String[] args) {
         // spring container : 의존 Object 를 삽입해준다.(DI)
         GenericApplicationContext applicationContext = new GenericApplicationContext();
