@@ -18,11 +18,10 @@ public class HellobootApplication {
 
     @Bean
     public DispatcherServlet dispatcherServlet() {
-        return new DispatcherServlet(); // 인자로 spring container 를 넘겨준다.
+        return new DispatcherServlet();
     }
 
     public static void main(String[] args) {
-        // spring container : 의존 Object 를 삽입해준다.(DI)
         SpringApplication.run(HellobootApplication.class, args);
     }
 }
