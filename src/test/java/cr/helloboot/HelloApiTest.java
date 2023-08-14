@@ -20,7 +20,7 @@ public class HelloApiTest {
         // Check List
         Assertions.assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK); // status code 200
         Assertions.assertThat(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE)).startsWith(MediaType.TEXT_PLAIN_VALUE); // header(content-type) text/plain
-        Assertions.assertThat(res.getBody()).isEqualTo("Hello Spring"); // body Hello Spring
+        Assertions.assertThat(res.getBody()).isEqualTo("*Hello Spring*"); // body Hello Spring
     }
 
     @Test
