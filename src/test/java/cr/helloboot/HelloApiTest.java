@@ -18,8 +18,18 @@ public class HelloApiTest {
                 rest.getForEntity("http://localhost:8080/hello?name={name}", String.class, "Spring");
 
         // Check List
-        Assertions.assertThat(res.getStatusCode().equals(HttpStatus.OK)); // status code 200
+        Assertions.assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK); // status code 200
         Assertions.assertThat(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE)).startsWith(MediaType.TEXT_PLAIN_VALUE); // header(content-type) text/plain
-        Assertions.assertThat(res.getBody().equals("Hello Spring")); // body Hello Spring
+        Assertions.assertThat(res.getBody()).isEqualTo("Hello Spring"); // body Hello Spring
+    }
+
+    @Test
+    void failsHelloApi() {
+        TestRestTemplate rest = new TestRestTemplate();
+
+        ResponseEntity<String> res =
+                rest.getForEntity("http://localhost:8080/hello?name=", String.class);
+
+        Assertions.assertThat(res.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR); //500
     }
 }
