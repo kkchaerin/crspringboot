@@ -1,2 +1,3 @@
 cr.config.autoconfig.TomcatWebServerConfig
+cr.config.autoconfig.JettyWebServerConfig
 cr.config.autoconfig.DispatcherServletConfig

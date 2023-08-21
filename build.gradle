@@ -6,10 +6,7 @@ plugins {
 
 group = 'cr'
 version = '0.0.1-SNAPSHOT'
-
-java {
-    sourceCompatibility = '11'
-}
+sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -17,6 +14,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jetty'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

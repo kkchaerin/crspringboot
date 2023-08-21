@@ -2,6 +2,7 @@ package cr.config;
 
 import cr.config.autoconfig.DispatcherServletConfig;
 import cr.config.autoconfig.TomcatWebServerConfig;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -16,5 +17,6 @@ import java.lang.annotation.Target;
 @Configuration
 @ComponentScan
 @Import({DispatcherServletConfig.class, TomcatWebServerConfig.class})
+@SpringBootApplication
 public @interface MySpringBootApplication {
 }
