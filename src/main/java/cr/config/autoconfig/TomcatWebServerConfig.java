@@ -12,7 +12,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 @MyAutoConfiguration
 @Conditional(TomcatWebServerConfig.TomcatConditional.class)
 public class TomcatWebServerConfig {
-    @Bean
+    @Bean("tomcatWebServerFactory")
     public ServletWebServerFactory servletWebServerFactory() {
         return new TomcatServletWebServerFactory();
     }
@@ -20,7 +20,7 @@ public class TomcatWebServerConfig {
     static class TomcatConditional implements Condition {
         @Override
         public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-            return true;
+            return false;
         }
     }
 }
